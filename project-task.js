@@ -44,6 +44,10 @@ Step-by-Step:
 3. Return the filtered result.
 */
 
+function filterProducts(arr, predicate) {
+  return arr.filter(predicate);
+}
+const availableProducts = filterProducts(products, p => p.inStock);
 
 /*
 🔹 Task 2: Transform Product Names
@@ -55,7 +59,7 @@ Step-by-Step:
 2. Extract and transform the `name` property to uppercase.
 3. Store the result in a new variable.
 */
-
+let upperCaseNames = products.map(p => p.name.toUpperCase());
 
 /*
 🔹 Task 3: Generate Discounted Prices
@@ -70,8 +74,20 @@ Step-by-Step:
 3. Use this returned function inside a `forEach()` call to add a new property, `salePrice`, to each product object.
 4. Print the array of products to verify the new property and value have been added to each product object.
 */
+//definning  the outer function
+function applyDiscount(discountPercent){
 
+  //return a function with one product with discount
+  return function getDiscountedPrice(product){
+    const discounted = product.price * (discountPercent/100);
+    product.salePrice = discounted;
+    return discounted;
+    };
+}
 
+//Returned function in forEach()
+const discount5 = applyDiscount(5);
+products.forEach(discount5);
 /*
 🔹 Task 4: Calculate Total Inventory Value
 
@@ -82,13 +98,18 @@ Step-by-Step:
 2. Add only the prices of products where `inStock` is true.
 3. Store the total in a new variable.
 */
-
+let totalInventoryValue = products.reduce((total , p) =>{
+if (p.inStock){
+  total += p.price; //add price if only in stock
+}
+ return total; //return total of the available products
+}, 0);
 
 // ============================================
 // 🧪 Console Test Your Work
 // ============================================
 
-// console.log("Filtered products:", ...);
-// console.log("Uppercased names:", ...);
-// console.log("Discounted products:", ...);
-// console.log("Total value in stock:", ...);
+console.log("Filtered products:", availableProducts);
+console.log("Uppercased names:", upperCaseNames);
+console.log("Discounted products:", products);
+console.log("Total value in stock:", totalInventoryValue);
